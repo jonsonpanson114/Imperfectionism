@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Imperfectionism — 不完全主義を受け入れる
 
-## Getting Started
+人生は4000週間しかありません。全部はできないと受け入れましょう。
 
-First, run the development server:
+---
 
-```bash
+## 概要
+
+オリバー・バークマンの「Four Thousand Weeks（4000週間）」の哲学に基づき、不完全主義を受け入れ、有限な人生を意識的に生きるためのWebアプリです。
+
+**核心理念:**
+- 人生は4000週間しかない（80歳として）
+- 全部はできないと受け入れることで解放される
+- 「やること」ではなく「何をしないか」を選ぶ
+- 不完全な達成を認める
+- 何もしない時間を大切にする
+
+---
+
+## 機能
+
+| 機能 | 説明 |
+|------|------|
+| **残り週間カウンター** | 誕生日から残り週間を計算・表示 |
+| **気分トラッキング** | 今日の気分を選択・記録 |
+| **開放式リスト** | 思いついたことを全部書ける（ToDoではない） |
+| **3つの選択** | やること・やらないこと・受け入れることを決める |
+| **不完全な達成** | やったことを記録（完全でなくていい） |
+| **無為タイマー** | 何もしない時間を設ける |
+| **手放しリスト** | 永遠にできないことを手放す |
+
+---
+
+## 技術スタック
+
+| 項目 | 選択 |
+|------|------|
+| フレームワーク | Next.js 14+ (App Router) |
+| 言語 | TypeScript |
+| スタイリング | Tailwind CSS |
+| UIコンポーネント | shadcn/ui |
+| データ保存 | LocalStorage |
+| アニメーション | Framer Motion |
+| デプロイ | Vercel |
+
+---
+
+## 開発
+
+\`\`\`bash
+# インストール
+npm install
+
+# 開発サーバー起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# ビルド
+npm run build
+\`\`\`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000 にアクセス
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## データ保存
 
-To learn more about Next.js, take a look at the following resources:
+このアプリは **LocalStorage** を使用しています。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- データはブラウザに保存されます
+- 別ブラウザ/デバイス間で同期されません
+- ブラウザのデータを消去すると、アプリのデータも消去されます
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ライセンス
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+MIT
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 哲学
+
+> 「全部はできないと受け入れましょう」
+
+人生は有限です。全部をやろうとするのではなく、何を選ぶかを意識的に決めましょう。不完全な達成で十分です。
