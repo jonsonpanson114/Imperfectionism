@@ -1,4 +1,4 @@
-import { AppData, STORAGE_KEY, initialData } from './types';
+import { AppData, STORAGE_KEY, initialData, DailyState, Choice, Done, StillMoment, LetGoItem, OpenListItem } from './types';
 
 export class Storage {
   private static instance: Storage;
