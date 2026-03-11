@@ -1,4 +1,4 @@
-import { AppData, STORAGE_KEY, initialData, DailyState, Choice, Done, StillMoment, LetGoItem, OpenListItem } from './types';
+import { AppData, STORAGE_KEY, initialData, DailyState, DailyProgress, Choice, Done, StillMoment, LetGoItem, OpenListItem } from './types';
 
 export class Storage {
   private static instance: Storage;
@@ -7,12 +7,43 @@ export class Storage {
 
   private constructor() {
     this.data = this.load();
+    // 古い進捗データをクリーンアップ（7日より前のもの）
+    this.cleanupOldProgress();
     // ウィンドウサイズ変更時にリスナーを登録（サーバーサイドレンダリング対応）
     if (typeof window !== 'undefined') {
       window.addEventListener('storage', () => {
         this.data = this.load();
         this.notify();
       });
+    }
+  }
+
+  private cleanupOldProgress() {
+    if (typeof window === 'undefined') return;
+
+    const today = new Date();
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(today.getDate() - 7);
+
+    const datesToKeep = new Set<string>();
+    Object.keys(this.data.dailyProgress).forEach(date => {
+      const dateObj = new Date(date);
+      if (dateObj >= sevenDaysAgo) {
+        datesToKeep.add(date);
+      }
+    });
+
+    // 7日より古い進捗を削除
+    const cleanedProgress: Record<string, DailyProgress> = {};
+    datesToKeep.forEach(date => {
+      if (this.data.dailyProgress[date]) {
+        cleanedProgress[date] = this.data.dailyProgress[date];
+      }
+    });
+
+    if (Object.keys(this.data.dailyProgress).length !== Object.keys(cleanedProgress).length) {
+      this.data.dailyProgress = cleanedProgress;
+      this.save();
     }
   }
 
@@ -90,6 +121,25 @@ export class Storage {
       ...updates,
       date,
       updatedAt: new Date().toISOString(),
+    };
+    this.save();
+    this.notify();
+  }
+
+  // 日次進捗
+  getDailyProgress(date: string) {
+    return this.data.dailyProgress[date] || null;
+  }
+
+  updateDailyProgress(date: string, updates: Partial<Omit<DailyProgress, 'date'>>) {
+    const existing = this.data.dailyProgress[date];
+    this.data.dailyProgress[date] = {
+      date,
+      currentStep: existing?.currentStep || 1,
+      step1Completed: existing?.step1Completed || false,
+      step2Completed: existing?.step2Completed || false,
+      step3Completed: existing?.step3Completed || false,
+      ...updates,
     };
     this.save();
     this.notify();

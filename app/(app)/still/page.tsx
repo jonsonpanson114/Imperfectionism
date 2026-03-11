@@ -7,6 +7,7 @@ import { useStillMoments } from '@/lib/storage/hooks';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 
 const TODAY = new Date().toISOString().split('T')[0];
 
@@ -96,7 +97,10 @@ export default function StillPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <h1 className="text-2xl font-medium text-stone-800 mb-2">無為</h1>
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-2xl font-medium text-stone-800">無為</h1>
+          <Badge variant="as-needed">必要時</Badge>
+        </div>
         <p className="text-stone-500">
           何もしない時間を大切にしましょう。
         </p>

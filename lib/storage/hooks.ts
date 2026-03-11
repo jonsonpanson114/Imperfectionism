@@ -38,6 +38,19 @@ export function useDailyState(date: string) {
   return state;
 }
 
+export function useDailyProgress(date: string) {
+  const storage = useStorage();
+  const [progress, setProgress] = useState(() => storage.getDailyProgress(date));
+
+  useEffect(() => {
+    return storage.subscribe(() => {
+      setProgress(storage.getDailyProgress(date));
+    });
+  }, [date, storage]);
+
+  return progress;
+}
+
 export function useChoices(date: string) {
   const storage = useStorage();
   const [choices, setChoices] = useState(() => storage.getChoices(date));

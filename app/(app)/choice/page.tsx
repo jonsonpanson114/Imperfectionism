@@ -2,16 +2,19 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { storage } from '@/lib/storage';
-import { useChoices } from '@/lib/storage/hooks';
+import { useChoices, useDailyProgress } from '@/lib/storage/hooks';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { DailyProgress } from '@/components/progress/DailyProgress';
 
 const TODAY = new Date().toISOString().split('T')[0];
 
 export default function ChoicePage() {
   const choices = useChoices(TODAY);
+  const dailyProgress = useDailyProgress(TODAY);
   const [inputs, setInputs] = useState({
     todo: '',
     notodo: '',
@@ -21,6 +24,7 @@ export default function ChoicePage() {
   const todoItems = choices.filter(c => c.type === 'todo');
   const notodoItems = choices.filter(c => c.type === 'notodo');
   const acceptItems = choices.filter(c => c.type === 'accept');
+  const hasAnyChoice = choices.length > 0;
 
   const handleAdd = (type: 'todo' | 'notodo' | 'accept') => {
     const content = inputs[type].trim();
@@ -40,6 +44,11 @@ export default function ChoicePage() {
     });
 
     setInputs({ ...inputs, [type]: '' });
+
+    // 初めての選択を追加したら進捗を更新
+    if (!hasAnyChoice && choices.length === 0) {
+      storage.updateDailyProgress(TODAY, { step2Completed: true, currentStep: 3 });
+    }
   };
 
   const handleToggleComplete = (id: string) => {
@@ -63,6 +72,14 @@ export default function ChoicePage() {
         <p className="text-stone-500">
           やること・やらないこと・受け入れることを決めましょう
         </p>
+      </motion.div>
+
+      {/* ステップ表示 */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <DailyProgress progress={dailyProgress} currentStep={2} />
       </motion.div>
 
       {/* やること */}
@@ -217,6 +234,21 @@ export default function ChoicePage() {
           </Button>
         </div>
       </motion.div>
+
+      {/* 次へボタン */}
+      {hasAnyChoice && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <Link href="/done">
+            <Button className="w-full bg-stone-800 hover:bg-stone-700">
+              次へ：達成 →
+            </Button>
+          </Link>
+        </motion.div>
+      )}
     </div>
   );
 }

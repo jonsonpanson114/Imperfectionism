@@ -12,6 +12,15 @@ export interface DailyState {
   updatedAt: string;
 }
 
+// 日次進捗
+export interface DailyProgress {
+  date: string;
+  currentStep: 1 | 2 | 3;
+  step1Completed: boolean;  // 気分選択完了
+  step2Completed: boolean;  // 選択完了
+  step3Completed: boolean;  // 達成完了
+}
+
 // 選択（やる/やらない/受け入れる）
 export interface Choice {
   id: string;
@@ -63,6 +72,7 @@ export interface OpenListItem {
 export interface AppData {
   settings: Settings | null;
   dailyStates: Record<string, DailyState>;  // key: date
+  dailyProgress: Record<string, DailyProgress>;  // key: date
   choices: Choice[];
   dones: Done[];
   stillMoments: StillMoment[];
@@ -77,6 +87,7 @@ export const STORAGE_KEY = 'the-incomplete-data';
 export const initialData: AppData = {
   settings: null,
   dailyStates: {},
+  dailyProgress: {},
   choices: [],
   dones: [],
   stillMoments: [],

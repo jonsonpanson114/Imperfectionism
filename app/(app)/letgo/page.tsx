@@ -73,7 +73,10 @@ export default function LetGoPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <h1 className="text-2xl font-medium text-stone-800 mb-2">手放し</h1>
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-2xl font-medium text-stone-800">手放し</h1>
+          <Badge variant="as-needed">必要時</Badge>
+        </div>
         <p className="text-stone-500">
           永遠にできないことを手放しましょう。
         </p>

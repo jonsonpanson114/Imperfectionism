@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { storage } from '@/lib/storage';
-import { useDailyState, useOpenListItems, useWeeklyDones } from '@/lib/storage/hooks';
+import { useDailyState, useOpenListItems, useWeeklyDones, useDailyProgress } from '@/lib/storage/hooks';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { DailyProgress } from '@/components/progress/DailyProgress';
 
 const MOODS = [
   { value: 'normal' as const, label: '😊 普通', description: 'いつも通り' },
@@ -19,14 +22,17 @@ const MOODS = [
 const TODAY = new Date().toISOString().split('T')[0];
 
 export default function HomePage() {
+  const router = useRouter();
   const dailyState = useDailyState(TODAY);
   const openItems = useOpenListItems();
   const weeklyDones = useWeeklyDones(TODAY);
+  const dailyProgress = useDailyProgress(TODAY);
 
   const [newIdea, setNewIdea] = useState('');
 
   const handleMoodSelect = (mood: typeof MOODS[number]['value']) => {
     storage.updateDailyState(TODAY, { mood });
+    storage.updateDailyProgress(TODAY, { step1Completed: true, currentStep: 2 });
   };
 
   const handleAddIdea = (e: React.FormEvent) => {
@@ -49,6 +55,14 @@ export default function HomePage() {
 
   return (
     <div className="space-y-8">
+      {/* ステップ表示 */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <DailyProgress progress={dailyProgress} currentStep={1} />
+      </motion.div>
+
       {/* 気分選択 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -71,6 +85,22 @@ export default function HomePage() {
             </button>
           ))}
         </div>
+
+        {/* 次へボタン */}
+        {dailyState?.mood && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mt-6"
+          >
+            <Link href="/choice">
+              <Button className="w-full bg-stone-800 hover:bg-stone-700">
+                次へ：選択 →
+              </Button>
+            </Link>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* 開放式リスト */}

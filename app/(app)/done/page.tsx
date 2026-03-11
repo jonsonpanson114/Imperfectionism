@@ -3,18 +3,22 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { storage } from '@/lib/storage';
-import { useDones, useWeeklyDones } from '@/lib/storage/hooks';
+import { useDones, useWeeklyDones, useDailyProgress } from '@/lib/storage/hooks';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { DailyProgress } from '@/components/progress/DailyProgress';
+import { CheckCircle } from 'lucide-react';
 
 const TODAY = new Date().toISOString().split('T')[0];
 
 export default function DonePage() {
   const dones = useDones(TODAY);
   const weeklyDones = useWeeklyDones(TODAY);
+  const dailyProgress = useDailyProgress(TODAY);
   const [input, setInput] = useState('');
   const [feeling, setFeeling] = useState('');
+  const [showCompletion, setShowCompletion] = useState(false);
 
   const handleAdd = () => {
     const content = input.trim();
@@ -28,6 +32,12 @@ export default function DonePage() {
 
     setInput('');
     setFeeling('');
+
+    // 初めての達成を記録したら進捗を更新
+    if (dones.length === 0) {
+      storage.updateDailyProgress(TODAY, { step3Completed: true, currentStep: 3 });
+      setShowCompletion(true);
+    }
   };
 
   const handleDelete = (id: string) => {
@@ -45,6 +55,34 @@ export default function DonePage() {
           やったことを記録しましょう。完全でなくていいのです。
         </p>
       </motion.div>
+
+      {/* ステップ表示 */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <DailyProgress progress={dailyProgress} currentStep={3} />
+      </motion.div>
+
+      {/* 完了メッセージ */}
+      {showCompletion && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Card className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+            <div className="flex items-center gap-3">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+              <div>
+                <h3 className="text-lg font-medium text-green-800">今日のフロー完了！</h3>
+                <p className="text-green-700 text-sm mt-1">
+                  今日の気分、選択、達成を記録しました。
+                </p>
+              </div>
+            </div>
+          </Card>
+        </motion.div>
+      )}
 
       {/* 追加フォーム */}
       <motion.div

@@ -2,14 +2,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
 
 const navItems = [
-  { href: '/', label: '今', icon: '◎', description: 'Now' },
-  { href: '/choice', label: '選択', icon: '✓', description: 'Choice' },
-  { href: '/done', label: '達成', icon: '◐', description: 'Done' },
-  { href: '/still', label: '無為', icon: '⊙', description: 'Still' },
-  { href: '/letgo', label: '手放し', icon: '✕', description: 'Let Go' },
+  { href: '/', label: '今', icon: '◎', description: 'Now', frequency: 'daily' as const },
+  { href: '/choice', label: '選択', icon: '✓', description: 'Choice', frequency: 'daily' as const },
+  { href: '/done', label: '達成', icon: '◐', description: 'Done', frequency: 'daily' as const },
+  { href: '/still', label: '無為', icon: '⊙', description: 'Still', frequency: 'as-needed' as const },
+  { href: '/letgo', label: '手放し', icon: '✕', description: 'Let Go', frequency: 'as-needed' as const },
 ];
+
+const frequencyLabels: Record<string, string> = {
+  daily: '毎日',
+  'as-needed': '必要時',
+};
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -35,10 +41,13 @@ export function Sidebar() {
               }`}
             >
               <span className="text-xl">{item.icon}</span>
-              <div>
+              <div className="flex-1">
                 <div className="font-medium">{item.label}</div>
                 <div className="text-xs opacity-60">{item.description}</div>
               </div>
+              <Badge variant={item.frequency === 'daily' ? 'daily' : 'as-needed'}>
+                {frequencyLabels[item.frequency]}
+              </Badge>
             </Link>
           );
         })}
