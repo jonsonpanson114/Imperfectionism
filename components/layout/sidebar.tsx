@@ -10,11 +10,13 @@ const navItems = [
   { href: '/done', label: '達成', icon: '◐', description: 'Done', frequency: 'daily' as const },
   { href: '/still', label: '無為', icon: '⊙', description: 'Still', frequency: 'as-needed' as const },
   { href: '/letgo', label: '手放し', icon: '✕', description: 'Let Go', frequency: 'as-needed' as const },
+  { href: '/philosophy', label: '心得', icon: '◈', description: 'Philosophy', frequency: 'always' as const },
 ];
 
 const frequencyLabels: Record<string, string> = {
   daily: '毎日',
   'as-needed': '必要時',
+  always: '随時',
 };
 
 export function Sidebar() {

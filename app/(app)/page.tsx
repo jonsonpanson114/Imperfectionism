@@ -55,6 +55,29 @@ export default function HomePage() {
 
   return (
     <div className="space-y-8">
+      {/* イントロダクション */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-stone-800 text-stone-100 p-6 rounded-2xl shadow-lg relative overflow-hidden group"
+      >
+        <div className="relative z-10">
+          <h2 className="text-xl font-medium mb-2 flex items-center gap-2">
+             不完全主義へようこそ
+          </h2>
+          <p className="text-stone-300 text-sm leading-relaxed mb-4">
+            ここは「全部できない」ことを受け入れるための場所です。脳内のノイズを書き出し、
+            今日選んだ3つだけを、不完全なまま進めてみましょう。
+          </p>
+          <Link href="/philosophy">
+            <Button variant="secondary" size="sm" className="bg-stone-700 hover:bg-stone-600 border-none text-stone-200">
+              心得を読む →
+            </Button>
+          </Link>
+        </div>
+        <div className="absolute top-[-20%] right-[-10%] w-48 h-48 bg-stone-700/30 rounded-full blur-3xl group-hover:bg-stone-600/40 transition-colors" />
+      </motion.div>
+
       {/* ステップ表示 */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

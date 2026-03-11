@@ -51,9 +51,13 @@ export default function DonePage() {
         animate={{ opacity: 1 }}
       >
         <h1 className="text-2xl font-medium text-stone-800 mb-2">不完全な達成</h1>
-        <p className="text-stone-500">
+        <p className="text-stone-500 mb-6">
           やったことを記録しましょう。完全でなくていいのです。
         </p>
+        <Card className="p-4 bg-stone-50 border-stone-200 text-sm text-stone-600 space-y-2">
+          <p><strong>完了（Done）ではなく進捗（Progress）:</strong> 「本を1冊読んだ」ではなく「1ページだけ読んだ」で十分です。不完全なまま進んだ自分を認めましょう。</p>
+          <p><strong>具体例:</strong> 「メールを1通返した」「パソコンを開いた」「散歩した」...どんなに些細なことでも、あなたの「一歩」です。</p>
+        </Card>
       </motion.div>
 
       {/* ステップ表示 */}

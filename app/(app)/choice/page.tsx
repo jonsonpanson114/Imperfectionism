@@ -69,9 +69,13 @@ export default function ChoicePage() {
         animate={{ opacity: 1 }}
       >
         <h1 className="text-2xl font-medium text-stone-800 mb-2">今日の3つの選択</h1>
-        <p className="text-stone-500">
-          やること・やらないこと・受け入れることを決めましょう
+        <p className="text-stone-500 mb-6">
+          やること・やらないこと・受け入れることを決めましょう。
         </p>
+        <Card className="p-4 bg-stone-50 border-stone-200 text-sm text-stone-600 space-y-2">
+          <p><strong>なぜ3つだけ？:</strong> 人間が一日に本当に集中できるのはせいぜい3つです。それ以外を「今日はやらない」と決めることで、罪悪感を捨て去ります。</p>
+          <p><strong>受け入れること:</strong> 変えられない状況や自分の限界を認めます。例：「今日は体調が悪いことを受け入れる」「納期に間に合わないことを認める」</p>
+        </Card>
       </motion.div>
 
       {/* ステップ表示 */}

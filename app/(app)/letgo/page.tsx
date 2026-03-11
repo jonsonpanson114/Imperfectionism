@@ -77,9 +77,13 @@ export default function LetGoPage() {
           <h1 className="text-2xl font-medium text-stone-800">手放し</h1>
           <Badge variant="as-needed">必要時</Badge>
         </div>
-        <p className="text-stone-500">
+        <p className="text-stone-500 mb-6">
           永遠にできないことを手放しましょう。
         </p>
+        <Card className="p-4 bg-stone-50 border-stone-200 text-sm text-stone-600 space-y-2">
+          <p><strong>なぜ手放すの？:</strong> 私たちの時間は有限です。「いつかやる」という重荷を捨てることで、今の自分に本当に必要なスペースを空けます。</p>
+          <p><strong>手放した後の振り返り:</strong> 手放してから数日後、今の気持ちを記録してみてください。意外と「なくても大丈夫だった」ことに気づくはずです。</p>
+        </Card>
       </motion.div>
 
       {/* 追加フォーム */}
